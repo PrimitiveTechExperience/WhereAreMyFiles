@@ -1,0 +1,10 @@
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\WhereAreMyFiles.exe.config
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\WhereAreMyFiles.exe
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\WhereAreMyFiles.pdb
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.csproj.AssemblyReference.cache
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.Form1.resources
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.Properties.Resources.resources
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.csproj.GenerateResource.cache
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.csproj.CoreCompileInputs.cache
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.exe
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.pdb
