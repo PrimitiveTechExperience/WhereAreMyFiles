@@ -25,16 +25,45 @@ namespace WhereAreMyFiles
         {
             int returnVal = -1;
 
-            if (col == 1) // Size column
+            switch (col)
             {
-                long sizeX = GetSizeInTree(((ListViewItem)x).SubItems[col].Text);
-                long sizeY = GetSizeInTree(((ListViewItem)y).SubItems[col].Text);
-                returnVal = sizeX.CompareTo(sizeY);
+                /*
+                 * case 0: name column, compare as strings
+                 * case 1: size column, compare as numbers (after parsing the " bytes" suffix)
+                 * case 2: date modified column, compare as DateTime (after parsing the string)
+                 * case 3: type column, compare as strings
+                 */
+                case 0: 
+                    returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
+                    break;
+                case 1:
+                    long sizeX = GetSizeInTree(((ListViewItem)x).SubItems[col].Text);
+                    long sizeY = GetSizeInTree(((ListViewItem)y).SubItems[col].Text);
+                    returnVal = sizeX.CompareTo(sizeY);
+                    break;
+                case 2:
+                    DateTime DateX, DateY;
+                    DateX = DateTime.Parse(((ListViewItem)x).SubItems[col].Text);
+                    DateY = DateTime.Parse(((ListViewItem)y).SubItems[col].Text);
+                    returnVal = DateX.CompareTo(DateY);
+                    break;
+                case 3:
+                    returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
+                    break;
+
             }
-            else // Name column
-            {
-                returnVal = String.Compare(((ListViewItem)x).SubItems[col].Text, ((ListViewItem)y).SubItems[col].Text);
-            }
+                    
+
+            //if (col == 1) // Size column
+            //{
+            //    long sizeX = GetSizeInTree(((ListViewItem)x).SubItems[col].Text);
+            //    long sizeY = GetSizeInTree(((ListViewItem)y).SubItems[col].Text);
+            //    returnVal = sizeX.CompareTo(sizeY);
+            //}
+            //else // Name column
+            //{
+                
+            //}
 
             if (order == SortOrder.Descending)
                 returnVal *= -1;

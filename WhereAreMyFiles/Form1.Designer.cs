@@ -44,9 +44,9 @@
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Right;
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(423, 0);
+            this.listView1.Location = new System.Drawing.Point(453, 0);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(364, 599);
+            this.listView1.Size = new System.Drawing.Size(659, 599);
             this.listView1.TabIndex = 1;
             this.listView1.UseCompatibleStateImageBehavior = false;
             // 
@@ -55,7 +55,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(787, 599);
+            this.ClientSize = new System.Drawing.Size(1112, 599);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.treeView1);
             this.Name = "Form1";

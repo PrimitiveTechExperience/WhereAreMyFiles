@@ -22,8 +22,12 @@ namespace WhereAreMyFiles
             listView1.ColumnClick += ListView1_ColumnClick;
             // List displays it as left-right scroll, details as vertical list with columns.
             listView1.View = View.Details;
+            // Columns: Name, Size, Date Modified, Type.
             listView1.Columns.Add("Name", 200);
             listView1.Columns.Add("Size", 100);
+            listView1.Columns.Add("Date Modified", 150);
+            listView1.Columns.Add("Type", 100);
+            listView1.FullRowSelect = true; // Enable full row selection for better user experience.
         }
 
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -44,6 +48,23 @@ namespace WhereAreMyFiles
         }
         // Sort column index, -1 means no sorting applied.
         private int sortColumn = -1;
+
+        private void UpdateColumnHeader(int column, SortOrder order)
+        {
+            // Reset all column headers
+            for (int i = 0; i < listView1.Columns.Count; i++)
+            {
+                string headerText = listView1.Columns[i].Text;
+                // Remove any existing arrow indicators
+                headerText = headerText.Replace(" ▲", "").Replace(" ▼", "");
+                listView1.Columns[i].Text = headerText;
+            }
+
+            // Add arrow to selected column
+            string indicator = order == SortOrder.Ascending ? " ▲" : " ▼";
+            listView1.Columns[column].Text += indicator;
+        }
+
         private void ListView1_ColumnClick(object sender, ColumnClickEventArgs e)
         {
             // Check for selected column. Different implies focus on that column.
@@ -60,6 +81,7 @@ namespace WhereAreMyFiles
                     listView1.Sorting = SortOrder.Ascending;
             }
 
+            UpdateColumnHeader(e.Column, listView1.Sorting);
             listView1.Sort();
             // Rebuild the list with new sorting order. ListViewItemComparer will handle the actual comparison logic.
             listView1.ListViewItemSorter = new ListViewItemComparer(e.Column, listView1.Sorting);
@@ -98,6 +120,8 @@ namespace WhereAreMyFiles
                     ListViewItem item = new ListViewItem(Path.GetFileName(file));
                     item.Tag = file;
                     item.SubItems.Add(new FileInfo(file).Length.ToString() + " bytes");
+                    item.SubItems.Add(new FileInfo(file).LastWriteTime.ToString());
+                    item.SubItems.Add(new FileInfo(file).Extension);
                     listView1.Items.Add(item);
                 }
 
