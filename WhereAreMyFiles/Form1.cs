@@ -19,7 +19,11 @@ namespace WhereAreMyFiles
             treeView1.BeforeExpand += TreeView1_BeforeExpand;
             treeView1.AfterSelect += TreeView1_AfterSelect;
             listView1.MouseDoubleClick += ListView1_MouseDoubleClick;
-            listView1.View = View.List;
+            listView1.ColumnClick += ListView1_ColumnClick;
+            // List displays it as left-right scroll, details as vertical list with columns.
+            listView1.View = View.Details;
+            listView1.Columns.Add("Name", 200);
+            listView1.Columns.Add("Size", 100);
         }
 
         private void ListView1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -37,6 +41,28 @@ namespace WhereAreMyFiles
                     MessageBox.Show("Error opening file: " + ex.Message.ToString());
                 }
             }
+        }
+        // Sort column index, -1 means no sorting applied.
+        private int sortColumn = -1;
+        private void ListView1_ColumnClick(object sender, ColumnClickEventArgs e)
+        {
+            // Check for selected column. Different implies focus on that column.
+            if (e.Column != sortColumn)
+            {
+                sortColumn = e.Column;
+                listView1.Sorting = SortOrder.Ascending;
+            }
+            else
+            {
+                if (listView1.Sorting == SortOrder.Ascending)
+                    listView1.Sorting = SortOrder.Descending;
+                else
+                    listView1.Sorting = SortOrder.Ascending;
+            }
+
+            listView1.Sort();
+            // Rebuild the list with new sorting order. ListViewItemComparer will handle the actual comparison logic.
+            listView1.ListViewItemSorter = new ListViewItemComparer(e.Column, listView1.Sorting);
         }
 
         private void TreeView1_BeforeExpand(object sender, TreeViewCancelEventArgs e)
