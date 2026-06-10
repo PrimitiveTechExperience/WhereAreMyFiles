@@ -6,10 +6,11 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using ReaLTaiizor.Forms;
 
 namespace WhereAreMyFiles
 {
-    public partial class Form1 : Form
+    public partial class Form1 : ReaLTaiizor.Forms.MaterialForm
     {
         // To optimize performance, we maintain 2 caches:
         /*
@@ -41,7 +42,7 @@ namespace WhereAreMyFiles
             listView1.View = View.Details;
             listView1.Columns.Add("Name", 240);
             listView1.Columns.Add("Size", 110);
-            listView1.Columns.Add("Date Modified", 150);
+            listView1.Columns.Add("Date Modified", 200);
             listView1.Columns.Add("Type", 90);
             listView1.FullRowSelect = true;
             // use Chart control to display folder sizes as a pie chart.
@@ -257,6 +258,34 @@ namespace WhereAreMyFiles
             StartLoadForPath(path);
         }
 
+        // Make a function to round up the sizes of files to kb, gb, tb, etc... for better readability in the UI, but keep the actual size in bytes for sorting and tooltips.
+        private void FormatSizeForDisplay(ListViewItem item)
+        {
+            if (item.SubItems.Count < 2)
+            {
+                return;
+            }
+            string sizeText = item.SubItems[1].Text;
+            if (!sizeText.EndsWith(" bytes"))
+            {
+                return;
+            }
+            string numberPart = sizeText.Substring(0, sizeText.Length - " bytes".Length);
+            if (!long.TryParse(numberPart, out long sizeInBytes))
+            {
+                return;
+            }
+            string[] suffixes = { "B", "KB", "MB", "GB", "TB", "PB", "EB" };
+            int suffixIndex = 0;
+            double displaySize = sizeInBytes;
+            while (displaySize >= 1024 && suffixIndex < suffixes.Length - 1)
+            {
+                displaySize /= 1024;
+                suffixIndex++;
+            }
+            item.SubItems[1].Text = $"{displaySize:0.##} {suffixes[suffixIndex]}";
+        }
+
         private void LoadPathData(string path, CancellationToken token)
         {
             try
@@ -281,6 +310,7 @@ namespace WhereAreMyFiles
                     long size = GetDirectorySize(directory, token);
                     ListViewItem item = new ListViewItem(dirInfo.Name);
                     item.Tag = directory;
+                    //keep this but eventually replace with formatted after adding it to chartEntries.
                     item.SubItems.Add(size.ToString() + " bytes");
                     item.SubItems.Add(dirInfo.LastWriteTime.ToString());
                     item.SubItems.Add("Folder");
@@ -311,7 +341,7 @@ namespace WhereAreMyFiles
 
                 if (fileBytes > 0)
                 {
-                    chartEntries.Insert(0, Tuple.Create("Files in folder", fileBytes));
+                    chartEntries.Insert(0, Tuple.Create("Files in current folder", fileBytes));
                 }
 
                 if (token.IsCancellationRequested)
