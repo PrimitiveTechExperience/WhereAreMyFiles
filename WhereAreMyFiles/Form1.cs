@@ -45,12 +45,16 @@ namespace WhereAreMyFiles
             listView1.Columns.Add("Type", 90);
             listView1.FullRowSelect = true;
             // use Chart control to display folder sizes as a pie chart.
-            chart1.Series["FolderSizes"].ChartType = SeriesChartType.Pie;
-            chart1.Series["FolderSizes"].IsValueShownAsLabel = true;
-            chart1.Series["FolderSizes"].Label = "#PERCENT{P0}";
-            chart1.Series["FolderSizes"].LegendText = "#VALX";
-            chart1.ChartAreas[0].Area3DStyle.Enable3D = false;
-            chart1.MouseClick += Chart1_MouseClick;
+            //chart1.Series["FolderSizes"].ChartType = SeriesChartType.Pie;
+            //chart1.Series["FolderSizes"].IsValueShownAsLabel = true;
+            //chart1.Series["FolderSizes"].Label = "#PERCENT{P0}";
+            //chart1.Series["FolderSizes"].LegendText = "#VALX";
+            //chart1.ChartAreas[0].Area3DStyle.Enable3D = false;
+            //chart1.MouseClick += Chart1_MouseClick;
+            pieChart1.Series = new LiveCharts.SeriesCollection();
+            pieChart1.LegendLocation = LiveCharts.LegendLocation.Right;
+            pieChart1.HoverPushOut = 10;
+            pieChart1.DataClick += PieChart1_DataClick;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -82,29 +86,65 @@ namespace WhereAreMyFiles
 
         private void PopulateChartForDrives()
         {
-            chart1.Series["FolderSizes"].Points.Clear();
+            //chart1.Series["FolderSizes"].Points.Clear();
+            //foreach (string drive in Environment.GetLogicalDrives())
+            //{
+            //    try
+            //    {
+            //        // Get drives and their used space for the pie chart. We show used space instead of free space to make it more visually intuitive.
+            //        DriveInfo info = new DriveInfo(drive);
+            //        if (info.IsReady)
+            //        {
+            //            long used = info.TotalSize - info.TotalFreeSpace;
+            //            int idx = chart1.Series["FolderSizes"].Points.AddXY(info.Name, used > 0 ? used : 1);
+            //            chart1.Series["FolderSizes"].Points[idx].LegendText = info.Name;
+            //            chart1.Series["FolderSizes"].Points[idx].ToolTip = info.Name;
+            //        }
+            //    }
+            //    catch
+            //    {
+            //    }
+            //}
+
+            //if (chart1.Series["FolderSizes"].Points.Count == 0)
+            //{
+            //    chart1.Series["FolderSizes"].Points.AddXY("No drives", 1);
+            //}
+            pieChart1.Series = new LiveCharts.SeriesCollection();
             foreach (string drive in Environment.GetLogicalDrives())
             {
                 try
                 {
-                    // Get drives and their used space for the pie chart. We show used space instead of free space to make it more visually intuitive.
                     DriveInfo info = new DriveInfo(drive);
                     if (info.IsReady)
                     {
                         long used = info.TotalSize - info.TotalFreeSpace;
-                        int idx = chart1.Series["FolderSizes"].Points.AddXY(info.Name, used > 0 ? used : 1);
-                        chart1.Series["FolderSizes"].Points[idx].LegendText = info.Name;
-                        chart1.Series["FolderSizes"].Points[idx].ToolTip = info.Name;
+                        var pieSeries = new LiveCharts.Wpf.PieSeries
+                        {
+                            Title = info.Name,
+                            Values = new LiveCharts.ChartValues<long> { used > 0 ? used : 1 },
+                            DataLabels = true,
+                            LabelPoint = chartPoint => $"{chartPoint.Y} bytes ({chartPoint.Participation:P})",
+                            ToolTip = info.Name
+                        };
+                        pieChart1.Series.Add(pieSeries);
                     }
                 }
                 catch
                 {
                 }
             }
-
-            if (chart1.Series["FolderSizes"].Points.Count == 0)
+            if(pieChart1.Series.Count == 0)
             {
-                chart1.Series["FolderSizes"].Points.AddXY("No drives", 1);
+                var pieSeries = new LiveCharts.Wpf.PieSeries
+                {
+                    Title = "No drives",
+                    Values = new LiveCharts.ChartValues<long> { 1 },
+                    DataLabels = true,
+                    LabelPoint = chartPoint => "No drives",
+                    ToolTip = "No drives"
+                };
+                pieChart1.Series.Add(pieSeries);
             }
         }
 
@@ -198,7 +238,7 @@ namespace WhereAreMyFiles
             CancellationToken token = loadCancellation.Token;
 
             listView1.Items.Clear();
-            chart1.Series["FolderSizes"].Points.Clear();
+            pieChart1.Series = new LiveCharts.SeriesCollection();
             labelCurrentPath.Text = path ?? "This PC";
             buttonBack.Enabled = !string.IsNullOrEmpty(path) || navigationStack.Count > 0;
 
@@ -313,36 +353,59 @@ namespace WhereAreMyFiles
 
         private void PopulatePieChartForCurrentFolder(List<Tuple<string, long>> entries)
         {
-            chart1.Series["FolderSizes"].Points.Clear();
+            //chart1.Series["FolderSizes"].Points.Clear();
+            //if (entries == null || entries.Count == 0)
+            //{
+            //    chart1.Series["FolderSizes"].Points.AddXY("Empty", 1);
+            //    chart1.Series["FolderSizes"].Points[0].LegendText = "Empty";
+            //    return;
+            //}
+
+            //foreach (var entry in entries)
+            //{
+            //    int index = chart1.Series["FolderSizes"].Points.AddXY(entry.Item1, entry.Item2);
+            //    chart1.Series["FolderSizes"].Points[index].LegendText = entry.Item1;
+            //    chart1.Series["FolderSizes"].Points[index].ToolTip = entry.Item1 + ": " + entry.Item2 + " bytes";
+            //}
+            pieChart1.Series = new LiveCharts.SeriesCollection();
             if (entries == null || entries.Count == 0)
             {
-                chart1.Series["FolderSizes"].Points.AddXY("Empty", 1);
-                chart1.Series["FolderSizes"].Points[0].LegendText = "Empty";
+                var emptySeries = new LiveCharts.Wpf.PieSeries
+                {
+                    Title = "Empty",
+                    Values = new LiveCharts.ChartValues<long> { 1 },
+                    DataLabels = true,
+                    LabelPoint = chartPoint => "Empty",
+                    ToolTip = "Empty"
+                };
+                pieChart1.Series.Add(emptySeries);
                 return;
             }
-
             foreach (var entry in entries)
             {
-                int index = chart1.Series["FolderSizes"].Points.AddXY(entry.Item1, entry.Item2);
-                chart1.Series["FolderSizes"].Points[index].LegendText = entry.Item1;
-                chart1.Series["FolderSizes"].Points[index].ToolTip = entry.Item1 + ": " + entry.Item2 + " bytes";
+                var pieSeries = new LiveCharts.Wpf.PieSeries
+                {
+                    Title = entry.Item1,
+                    Values = new LiveCharts.ChartValues<long> { entry.Item2 },
+                    DataLabels = true,
+                    LabelPoint = p => p.Participation.ToString("P0"),
+                    Tag = entry.Item1
+                };
+                //pieSeries.DataClick += PieSlice_Click;
+                pieChart1.Series.Add(pieSeries);
             }
         }
 
-        private void Chart1_MouseClick(object sender, MouseEventArgs e)
+        private void PieChart1_DataClick(object sender, LiveCharts.ChartPoint chartPoint)
         {
-            HitTestResult result = chart1.HitTest(e.X, e.Y);
-            if (result.ChartElementType != ChartElementType.DataPoint || result.Series == null || result.PointIndex < 0)
-            {
-                return;
-            }
+            var series = (LiveCharts.Wpf.PieSeries)chartPoint.SeriesView;
 
-            string selectedLabel = result.Series.Points[result.PointIndex].AxisLabel;
-            if (selectedLabel == "Empty" || selectedLabel == "Files in folder")
-            {
-                return;
-            }
+            string selectedLabel = series?.Title;
 
+            if (string.IsNullOrEmpty(selectedLabel)) return;
+
+            // Need to consider two cases: root level or normal level
+            // Case 1: root level
             if (string.IsNullOrEmpty(currentPath))
             {
                 string drivePath = selectedLabel.EndsWith("\\", StringComparison.Ordinal) ? selectedLabel : selectedLabel + "\\";
@@ -352,13 +415,48 @@ namespace WhereAreMyFiles
                 }
                 return;
             }
+            // case 2: normal level
+            if (string.IsNullOrEmpty(currentPath)) return;
 
             string nextPath = Path.Combine(currentPath, selectedLabel);
+
             if (Directory.Exists(nextPath))
             {
-                NavigateTo(nextPath, true);
+                NavigateTo($"{nextPath}", true);
             }
+
         }
+
+        //private void Chart1_MouseClick(object sender, MouseEventArgs e)
+        //{
+        //    HitTestResult result = chart1.HitTest(e.X, e.Y);
+        //    if (result.ChartElementType != ChartElementType.DataPoint || result.Series == null || result.PointIndex < 0)
+        //    {
+        //        return;
+        //    }
+
+        //    string selectedLabel = result.Series.Points[result.PointIndex].AxisLabel;
+        //    if (selectedLabel == "Empty" || selectedLabel == "Files in folder")
+        //    {
+        //        return;
+        //    }
+
+        //    if (string.IsNullOrEmpty(currentPath))
+        //    {
+        //        string drivePath = selectedLabel.EndsWith("\\", StringComparison.Ordinal) ? selectedLabel : selectedLabel + "\\";
+        //        if (Directory.Exists(drivePath))
+        //        {
+        //            NavigateTo(drivePath, true);
+        //        }
+        //        return;
+        //    }
+
+        //    string nextPath = Path.Combine(currentPath, selectedLabel);
+        //    if (Directory.Exists(nextPath))
+        //    {
+        //        NavigateTo(nextPath, true);
+        //    }
+        //}
 
         private long GetDirectorySize(string path, CancellationToken token)
         {

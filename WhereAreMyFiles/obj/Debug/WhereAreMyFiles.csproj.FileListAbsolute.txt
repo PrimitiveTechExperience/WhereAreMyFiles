@@ -8,3 +8,17 @@ C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMy
 C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.csproj.CoreCompileInputs.cache
 C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.exe
 C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAreMyFiles.pdb
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.dll
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.WinForms.dll
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.Wpf.dll
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\ReaLTaiizor.dll
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\System.dll
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.pdb
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.xml
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.WinForms.pdb
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.WinForms.xml
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.Wpf.pdb
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\LiveCharts.Wpf.xml
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\ReaLTaiizor.xml
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\bin\Debug\System.xml
+C:\Users\hengx\source\repos\WhereAreMyFiles\WhereAreMyFiles\obj\Debug\WhereAre.0C37589D.Up2Date

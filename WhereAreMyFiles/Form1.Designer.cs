@@ -1,4 +1,8 @@
-﻿namespace WhereAreMyFiles
+﻿//using LiveCharts.Wpf;
+using LiveCharts;
+using LiveCharts.WinForms;
+
+namespace WhereAreMyFiles
 {
     partial class Form1
     {
@@ -28,46 +32,26 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            this.panelLeft = new System.Windows.Forms.Panel();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.pieChart1 = new LiveCharts.WinForms.PieChart();
             this.panelNav = new System.Windows.Forms.Panel();
             this.labelCurrentPath = new System.Windows.Forms.Label();
             this.buttonBack = new System.Windows.Forms.Button();
+            this.panelLeft = new System.Windows.Forms.Panel();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.panelLeft.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.panelNav.SuspendLayout();
+            this.panelLeft.SuspendLayout();
             this.SuspendLayout();
             // 
-            // panelLeft
+            // pieChart1
             // 
-            this.panelLeft.Controls.Add(this.chart1);
-            this.panelLeft.Controls.Add(this.panelNav);
-            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelLeft.Location = new System.Drawing.Point(0, 0);
-            this.panelLeft.Name = "panelLeft";
-            this.panelLeft.Size = new System.Drawing.Size(420, 599);
-            this.panelLeft.TabIndex = 0;
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(0, 44);
-            this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Pie;
-            series1.Legend = "Legend1";
-            series1.Name = "FolderSizes";
-            this.chart1.Series.Add(series1);
-            this.chart1.Size = new System.Drawing.Size(420, 555);
-            this.chart1.TabIndex = 1;
+            this.pieChart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pieChart1.Location = new System.Drawing.Point(0, 0);
+            this.pieChart1.Name = "pieChart1";
+            this.pieChart1.Size = new System.Drawing.Size(1112, 599);
+            this.pieChart1.TabIndex = 1;
+            this.pieChart1.InnerRadius = 60;
+            this.pieChart1.HoverPushOut = 15;
+            this.pieChart1.LegendLocation = LegendLocation.Right;
             // 
             // panelNav
             // 
@@ -101,6 +85,17 @@
             this.buttonBack.Text = "Back";
             this.buttonBack.UseVisualStyleBackColor = true;
             // 
+            // panelLeft
+            // 
+            this.panelLeft.BackColor = System.Drawing.SystemColors.ButtonFace;
+            this.panelLeft.Controls.Add(this.panelNav);
+            this.panelLeft.Controls.Add(this.pieChart1);
+            this.panelLeft.Dock = System.Windows.Forms.DockStyle.Left;
+            this.panelLeft.Location = new System.Drawing.Point(0, 0);
+            this.panelLeft.Name = "panelLeft";
+            this.panelLeft.Size = new System.Drawing.Size(420, 599);
+            this.panelLeft.TabIndex = 0;
+            // 
             // listView1
             // 
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -122,20 +117,19 @@
             this.Name = "Form1";
             this.Text = "File Explorer";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.panelLeft.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.panelNav.ResumeLayout(false);
+            this.panelLeft.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Panel panelLeft;
-        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        //private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private LiveCharts.WinForms.PieChart pieChart1;
         private System.Windows.Forms.Panel panelNav;
         private System.Windows.Forms.Label labelCurrentPath;
         private System.Windows.Forms.Button buttonBack;
+        private System.Windows.Forms.Panel panelLeft;
         private System.Windows.Forms.ListView listView1;
     }
 }
