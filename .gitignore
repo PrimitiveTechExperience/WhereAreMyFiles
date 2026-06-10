@@ -1,2 +1,59 @@
+# Visual Studio
 .vs/
-# Note: .vs contains user specific workspace data, locked during dev. Do not commit.
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+bin/
+obj/
+
+# Visual Studio cache
+*.cache
+*.ilk
+*.log
+*.tlog
+
+# Test results
+TestResults/
+
+# NuGet packages (for older packages.config projects)
+packages/
+
+# Rider/ReSharper (if used)
+_ReSharper*/
+*.DotSettings.user
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Temporary files
+*.tmp
+*.temp
+
+# Publish output
+publish/
+
+# ClickOnce
+app.publish/
+
+# Generated files
+Generated Files/
+
+# Visual Studio profiling
+*.psess
+*.vsp
+*.vspx
+
+# SQL Server local db
+*.mdf
+*.ldf
+
+# Visual Studio code analysis
+*.sarif
