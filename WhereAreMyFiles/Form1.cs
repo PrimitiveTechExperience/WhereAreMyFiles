@@ -309,11 +309,24 @@ namespace WhereAreMyFiles
                     DirectoryInfo dirInfo = new DirectoryInfo(directory);
                     long size = GetDirectorySize(directory, token);
                     ListViewItem item = new ListViewItem(dirInfo.Name);
-                    item.Tag = directory;
-                    //keep this but eventually replace with formatted after adding it to chartEntries.
+                    // Use new FileSystemEntry class to store:
+                    // - Full path in the Tag for later retrieval when user clicks on the item
+                    // - Size in bytes in the second subitem for sorting and tooltip, but we will display a formatted size to the user for readability.
+                    // - Type as "Folder" in the fourth subitem for display purposes.
+                    // - IsDirectory and IsHidden properties are not directly displayed but could be used for additional features like filtering or icons in the future.
+                    item.Tag = new FileSystemEntry
+                    {
+                        FullPath = directory,
+                        SizeInBytes = size,
+                        Type = "Folder",
+                        IsDirectory = true,
+                        IsHidden = (dirInfo.Attributes & FileAttributes.Hidden) != 0
+                    };
+                    ////keep this but eventually replace with formatted after adding it to chartEntries.
                     item.SubItems.Add(size.ToString() + " bytes");
                     item.SubItems.Add(dirInfo.LastWriteTime.ToString());
                     item.SubItems.Add("Folder");
+                    FormatSizeForDisplay(item);
                     items.Add(item);
                     if (size > 0)
                     {
@@ -332,10 +345,18 @@ namespace WhereAreMyFiles
                     FileInfo info = new FileInfo(file);
                     fileBytes += info.Length;
                     ListViewItem item = new ListViewItem(info.Name);
-                    item.Tag = file;
+                    item.Tag = new FileSystemEntry
+                    {
+                        FullPath = file,
+                        SizeInBytes = info.Length,
+                        Type = info.Extension,
+                        IsDirectory = false,
+                        IsHidden = (info.Attributes & FileAttributes.Hidden) != 0
+                    };
                     item.SubItems.Add(info.Length.ToString() + " bytes");
                     item.SubItems.Add(info.LastWriteTime.ToString());
                     item.SubItems.Add(info.Extension);
+                    FormatSizeForDisplay(item);
                     items.Add(item);
                 }
 

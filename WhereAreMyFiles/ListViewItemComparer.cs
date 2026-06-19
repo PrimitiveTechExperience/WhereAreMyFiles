@@ -21,6 +21,12 @@ namespace WhereAreMyFiles
             this.order = order;
         }
 
+        private long DetermineTrueSize(ListViewItem x)
+        {
+            // Object will be a ListViewItem, we get the true size from the SizeInBytes property of the FileSystemEntry object stored in the Tag property of the ListViewItem
+            return x.Tag is FileSystemEntry entry ? entry.SizeInBytes : 0;
+        }
+
         public int Compare(object x, object y)
         {
             int returnVal = -1;
@@ -39,7 +45,7 @@ namespace WhereAreMyFiles
                 case 1:
                     long sizeX = GetSizeInTree(((ListViewItem)x).SubItems[col].Text);
                     long sizeY = GetSizeInTree(((ListViewItem)y).SubItems[col].Text);
-                    returnVal = sizeX.CompareTo(sizeY);
+                    returnVal = DetermineTrueSize((ListViewItem)x).CompareTo(DetermineTrueSize((ListViewItem)y));
                     break;
                 case 2:
                     DateTime DateX, DateY;
