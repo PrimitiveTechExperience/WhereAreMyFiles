@@ -643,5 +643,10 @@ namespace WhereAreMyFiles
         {
             return GetDirectorySize(path, CancellationToken.None);
         }
+
+        private void overlayPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
